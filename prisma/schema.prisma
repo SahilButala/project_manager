@@ -72,7 +72,7 @@ model WorkspaceMember {
   workspaceId   String
   workspace     Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
-  role          String
+  role          String?
   accessLevel   AccessLevel     @default(MEMBER)
 
   projectAccess ProjectAccess[]

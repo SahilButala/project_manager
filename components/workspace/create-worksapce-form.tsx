@@ -30,11 +30,10 @@ import {
 } from "../ui/select";
 
 import { Textarea } from "../ui/textarea";
-import { countryList } from "@/app/utils/CountryList";
-import { industryTypesList, rolelist } from "@/app/utils";
 import { userSchema, workspaceSchmea } from "@/lib/schema";
 import { toast } from "sonner";
-import { createUser } from "@/app/(protected)/actions/user";
+import { createNewWorkspace } from "@/app/(protected)/actions/workspace";
+import { useRouter } from "next/navigation";
 
 
 
@@ -43,6 +42,7 @@ export type CreateWorkspaceDataType = z.infer<typeof workspaceSchmea>;
 
 const CreateWorkspaceForm = () => {
   const [pending, setpending] = useState(false);
+
 
   // initialize form
   const form = useForm<CreateWorkspaceDataType>({
@@ -53,11 +53,16 @@ const CreateWorkspaceForm = () => {
     },
   });
 
-  console.log(name, "name");
+  const router = useRouter()
 
   // onsubmit handler
   const onSubmit = async (data: CreateWorkspaceDataType) => {
     try {
+      setpending(true)
+      const {data : res} = await createNewWorkspace(data)
+  toast.success('Workspace created successfully..')
+
+  router.push(`/workspace/${res?.id}`)
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong please try again..");
