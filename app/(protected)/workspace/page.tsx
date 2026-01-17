@@ -24,12 +24,15 @@ const Workspace = async () => {
     redirect("/create-workspace");
   }
 
+  const workspaceid  = data?.workspaces[0]?.workspaceId
+
   if (data.workspaces.length > 0) {
-    redirect(`/workspace/${data.workspaces[0].workspaceId}`);
+    redirect(`/workspace/${workspaceid}`);
   }
   // ----------------- redirect logic ----------------- //
 
 
+  console.log(workspaceid , "sasas")
 
   return (
     <div>

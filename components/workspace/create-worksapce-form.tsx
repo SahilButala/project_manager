@@ -44,7 +44,7 @@ const CreateWorkspaceForm = () => {
   const [pending, setpending] = useState(false);
 
 
-  // initialize form
+  // initialize form  
   const form = useForm<CreateWorkspaceDataType>({
     resolver: zodResolver(workspaceSchmea),
     defaultValues: {
@@ -62,7 +62,9 @@ const CreateWorkspaceForm = () => {
       const {data : res} = await createNewWorkspace(data)
   toast.success('Workspace created successfully..')
 
-  router.push(`/workspace/${res?.id}`)
+  const workspaceid = res?.id
+
+  router.push(`/workspace/${workspaceid}`)
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong please try again..");

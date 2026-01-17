@@ -16,6 +16,8 @@ const OnboardingPage = async () => {
   
     const name = `${user?.given_name ?? ""} ${user?.family_name ?? ""}`;
 
+
+
   
   return (
     <div>
