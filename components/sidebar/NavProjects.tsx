@@ -26,6 +26,8 @@ const NavProjects = ({
   // path : my-task
   const path = usePathname();
 
+  console.log("projects" , projects)
+
   return (
     <div>
       <SidebarGroup className="group-data-[collapsible=icon]:hidden">

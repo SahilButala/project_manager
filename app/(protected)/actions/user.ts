@@ -6,45 +6,58 @@ import db from "@/lib/db"
 import { userSchema } from "@/lib/schema"
 import { redirect } from "next/navigation"
 
-export const createUser = async (data : UserDataType)=>{
-   const {user} = await userRequired()
+export const createUser = async (data: UserDataType) => {
+  const { user } = await userRequired()
 
-   const validateData = userSchema.parse(data)
+  if (!user?.id || !user?.email) {
+    throw new Error("User not found")
+  }
 
-   const userData = await db.user.create({
-     data : {
-        id : user?.id,
-        email : user?.email as string,
-        name : validateData?.name,
-        about : validateData?.about,
-        country : validateData?.country,
-        industryType : validateData?.industryType,
-        role : validateData?.role,
-        onboardingCompleted : true,
-        image : user?.picture,
+  const validateData = userSchema.parse(data)
 
-        subscription : {
-            create : {
-                 plan : "FREE",
-                 status : "ACTIVE",
-                 currentPeriodEnd : new Date(),
-                 cancelAtPeriodEnd : false
-            }
-        }
-     },
+  const userData = await db.user.upsert({
+    where: {
+      id: user.id,
+    },
+    update: {
+      name: validateData.name,
+      about: validateData.about,
+      country: validateData.country,
+      industryType: validateData.industryType,
+      role: validateData.role,
+      onboardingCompleted: true,
+      image: user.picture,
+    },
+    create: {
+      id: user.id,
+      email: user.email,
+      name: validateData.name,
+      about: validateData.about,
+      country: validateData.country,
+      industryType: validateData.industryType,
+      role: validateData.role,
+      onboardingCompleted: true,
+      image: user.picture,
+      subscription: {
+        create: {
+          plan: "FREE",
+          status: "ACTIVE",
+          currentPeriodEnd: new Date(),
+          cancelAtPeriodEnd: false,
+        },
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      workspaces: true,
+    },
+  })
 
-     select : {
-        id : true,
-        name : true,
-        email : true,
-        workspaces : true
-     }
-   })
-
-   if(userData?.workspaces?.length === 0){
+  if (userData.workspaces.length === 0) {
     redirect("/create-workspace")
-   }
+  }
 
-   redirect("/workspace")
-
+  redirect("/workspace")
 }

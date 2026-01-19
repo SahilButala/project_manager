@@ -29,6 +29,9 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
+import { createNewProjectForm } from "@/app/(protected)/actions/project";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface Props {
   workspaceMembers: WorkspaceMemberProps[];
@@ -40,6 +43,7 @@ const CreateProjectForm = ({ workspaceMembers }: Props) => {
   const workspaceId = useWorkspaceId();
   const [pending, setPending] = useState(false);
 
+  const router = useRouter()
   const form = useForm<ProjectData>({
     resolver: zodResolver(ProjectSchema),
     defaultValues: {
@@ -57,11 +61,28 @@ const CreateProjectForm = ({ workspaceMembers }: Props) => {
   }, [workspaceId, form]);
 
   const onSubmit = async (data: ProjectData) => {
+  try {
     setPending(true);
-    console.log(data);
-    setPending(false);
-  };
 
+    console.log(data , "data of project")
+
+    const res = await createNewProjectForm(data);
+
+    if (!res.success) {
+      toast.error(res.message ?? "Failed to create project");
+      return;
+    }
+
+    toast.success("Project created successfully");
+    router.refresh();
+
+  } catch (error) {
+    console.error(error);
+    toast.error("Something went wrong");
+  } finally {
+    setPending(false);
+  }
+}
   return (
     <Dialog>
       <DialogTrigger asChild>

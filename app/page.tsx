@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
+import { LoginLink, RegisterLink  } from "@kinde-oss/kinde-auth-nextjs";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Link from "next/link";
 import React from "react";

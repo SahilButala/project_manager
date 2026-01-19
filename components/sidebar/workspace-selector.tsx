@@ -26,7 +26,7 @@ const WorkspaceSelector = ({
   const [selectedWorkspace, setselectedWorkspace] = useState<
   WorkspaceProps | undefined
   >(undefined);
-const workspaceid = useWorkspaceId() || workspaces[0]?.workspaceId;
+const workspaceid = useWorkspaceId() ;
 
   // when user hit click we redirect to that workspace
 
@@ -36,11 +36,13 @@ const workspaceid = useWorkspaceId() || workspaces[0]?.workspaceId;
     router.push(`/workspace/${id}`);
   };
 
+
+
   // by default given workspace will show
   useEffect(() => {
     if (workspaceid && workspaces) {
       setselectedWorkspace(
-        workspaces.find((workspace) => workspace?.id === workspaceid)
+        workspaces.find((workspace) => workspace?.workspaceId === workspaceid)
       );
     }
   }, [workspaceid, workspaces]);
@@ -73,14 +75,14 @@ const workspaceid = useWorkspaceId() || workspaces[0]?.workspaceId;
               <DropdownMenuItem
                 key={w.id}
                 className="w-full"
-                onSelect={() => onSelect(w.id!)}
+                onSelect={() => onSelect(w.workspaceId)}
               >
                 <div className="flex items-center gap-3 w-full text-muted-foreground">
                   <WorkspaceAvatar name={w.workspace?.name as string} />
                   <p>{w.workspace?.name}</p>
                 </div>
 
-                {w.id === workspaceid && (
+                {w.workspaceId === workspaceid && (
                   <Check className="ml-auto text-blue-400" />
                 )}
               </DropdownMenuItem>

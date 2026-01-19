@@ -12,11 +12,12 @@ import {
 } from "../ui/sidebar";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { Plus } from "lucide-react";
+import { LogOut, Plus } from "lucide-react";
 import WorkspaceSelector from "./workspace-selector";
 import Link from "next/link";
 import NavMain from "./nav-main";
 import NavProjects from "./NavProjects";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
 
 const AppSideBar = ({
   data,
@@ -44,6 +45,9 @@ const AppSideBar = ({
 
       <div className="flex justify-between mb-0 mt-2  items-center">
         <SidebarGroupLabel className="mb-2 text-sm font-semibold text-muted-foreground uppercase">
+          <LogoutLink>
+            <LogOut className="mr-3 cursor-pointer" />
+          </LogoutLink>
           Workspace
         </SidebarGroupLabel>
 
@@ -70,7 +74,7 @@ const AppSideBar = ({
           }
         />
       </SidebarContent>
-    </Sidebar>    
+    </Sidebar>
   );
 };
 

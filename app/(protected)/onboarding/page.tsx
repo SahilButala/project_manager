@@ -9,8 +9,24 @@ const OnboardingPage = async () => {
     const data = res?.data;
   
     const { user } = await userRequired();
+
+    console.log("length" , data?.workspaces.length)
   
     // ----------------- redirect logic ----------------- //
+
+      if (!data) {
+        redirect("/onboarding");
+      }
+    
+      if (!data.onboardingCompleted) {
+        redirect("/onboarding");
+      }
+    
+      if (data.onboardingCompleted && data.workspaces.length === 0) {
+        redirect("/create-workspace");
+      }else{
+         redirect("/workspace")
+      }
 
     // ----------------- redirect logic ----------------- //
   

@@ -17,41 +17,41 @@ datasource db {
 // USER MODEL
 // ===================================
 model User {
-  id                  String            @id @default(uuid())
-  name                String
-  email               String             @unique
-  about               String?
-  industryType        String?
-  role                String
-  country             String
-  image               String?
-  workspaces          WorkspaceMember[]
-  tasks               Task[]
-  activities          Activities[]
-  comments            Comment[]
-  subscription        Subscription?
+  id           String            @id @default(uuid())
+  name         String
+  email        String            @unique
+  about        String?
+  industryType String?
+  role         String
+  country      String
+  image        String?
+  workspaces   WorkspaceMember[]
+  tasks        Task[]
+  activities   Activities[]
+  comments     Comment[]
+  subscription Subscription?
 
-  onboardingCompleted Boolean            @default(false)
+  onboardingCompleted Boolean @default(false)
 
-  createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ===================================
 // WORKSPACE MODEL
 // ===================================
 model Workspace {
-  id          String            @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
   description String?
   ownerId     String?
-  inviteCode  String            @unique
+  inviteCode  String  @unique
 
-  members     WorkspaceMember[]
-  projects    Project[]
+  members  WorkspaceMember[]
+  projects Project[]
 
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ===================================
@@ -64,45 +64,44 @@ enum AccessLevel {
 }
 
 model WorkspaceMember {
-  id            String          @id @default(uuid())
-  userId        String
-  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  workspaceId   String
-  workspace     Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
-  role          String?
-  accessLevel   AccessLevel     @default(MEMBER)
+  role        String?
+  accessLevel AccessLevel @default(MEMBER)
 
   projectAccess ProjectAccess[]
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([userId, workspaceId])
-
 }
 
 // ===================================
 // PROJECT MODEL
 // ===================================
 model Project {
-  id            String          @id @default(uuid())
-  name          String
-  description   String?
+  id          String  @id @default(uuid())
+  name        String
+  description String?
 
-  workspaceId   String
-  workspace     Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 
   tasks         Task[]
   activities    Activities[]
   comments      Comment[]
   documentation Documentation[]
   projectAccess ProjectAccess[]
-    files         File[]
+  files         File[]
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([workspaceId, name])
   @@index([workspaceId])
@@ -112,18 +111,18 @@ model Project {
 // PROJECT ACCESS
 // ===================================
 model ProjectAccess {
-  id                String            @id @default(uuid())
+  id String @id @default(uuid())
 
   workspaceMemberId String
-  workspaceMember   WorkspaceMember   @relation(fields: [workspaceMemberId], references: [id], onDelete: Cascade)
+  workspaceMember   WorkspaceMember @relation(fields: [workspaceMemberId], references: [id], onDelete: Cascade)
 
-  projectId         String
-  project           Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-  hasAccess         Boolean           @default(false)
+  hasAccess Boolean @default(false)
 
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([workspaceMemberId, projectId])
 }
@@ -146,26 +145,26 @@ enum TaskPriority {
 }
 
 model Task {
-  id          String        @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   description String?
 
-  status      TaskStatus    @default(TODO)
-  priority    TaskPriority  @default(LOW)
+  status   TaskStatus   @default(TODO)
+  priority TaskPriority @default(LOW)
 
-  position    Int
-  dueDate     DateTime
+  position Int
+  dueDate  DateTime
 
-  assignedId  String?
-  assignedTo  User?         @relation(fields: [assignedId], references: [id], onDelete: SetNull)
+  assignedId String?
+  assignedTo User?   @relation(fields: [assignedId], references: [id], onDelete: SetNull)
 
-  projectId   String
-  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   attachments File[]
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([projectId])
 }
@@ -174,17 +173,17 @@ model Task {
 // ACTIVITY MODEL
 // ===================================
 model Activities {
-  id          String   @id @default(uuid())
+  id          String @id @default(uuid())
   type        String
   description String
 
-  projectId   String
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
 
   @@index([projectId])
   @@index([userId])
@@ -194,17 +193,17 @@ model Activities {
 // COMMENT MODEL
 // ===================================
 model Comment {
-  id          String   @id @default(uuid())
-  content     String
+  id      String @id @default(uuid())
+  content String
 
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  projectId   String
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([projectId])
   @@index([userId])
@@ -214,15 +213,14 @@ model Comment {
 // DOCUMENTATION
 // ===================================
 model Documentation {
-  id          String   @id @default(uuid())
-  content     String
+  id      String @id @default(uuid())
+  content String
 
-  projectId   String
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ===================================
@@ -234,13 +232,13 @@ enum FileType {
 }
 
 model File {
-  id        String   @id @default(uuid())
-  name      String
-  url       String
-  type      FileType
+  id   String   @id @default(uuid())
+  name String
+  url  String
+  type FileType
 
-  taskId    String?
-  task      Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId String?
+  task   Task?   @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   projectId String?
   project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
@@ -268,22 +266,22 @@ enum SubscriptionStatus {
 }
 
 model Subscription {
-  id                String             @id @default(uuid())
+  id String @id @default(uuid())
 
-  userId            String             @unique
-  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  plan              SubscriptionPlan   @default(FREE)
-  status            SubscriptionStatus @default(ACTIVE)
+  plan   SubscriptionPlan   @default(FREE)
+  status SubscriptionStatus @default(ACTIVE)
 
-  lemonsqueezyId    String?
-  orderId           String?
-  customerId        String?
+  lemonsqueezyId String?
+  orderId        String?
+  customerId     String?
 
   currentPeriodEnd  DateTime?
-  frequency         String             @default("monthly")
-  cancelAtPeriodEnd Boolean            @default(false)
+  frequency         String    @default("monthly")
+  cancelAtPeriodEnd Boolean   @default(false)
 
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
