@@ -1,4 +1,4 @@
-import { $Enums, Workspace, WorkspaceMember } from "@/lib/generated/prisma/client";
+import { $Enums, Comment, Workspace, WorkspaceMember } from "@/lib/generated/prisma/client";
 
 export interface WorkspaceMemberProps extends WorkspaceMember{
   user : {
@@ -46,4 +46,8 @@ export interface WorkspaceProps{
     workspace : {
       name : string
     }
+}
+
+export interface CommentProps extends Comment{
+    user : {id : string ; name : string ; image : string}
 }
