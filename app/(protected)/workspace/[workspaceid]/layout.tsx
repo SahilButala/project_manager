@@ -10,7 +10,7 @@ import React from "react";
 
 interface Props {
   children: React.ReactNode;
-  params: { workspaceid: string };
+  params: Promise<{ workspaceid: string }>; // Must be a Promise
 }
 
 const WorkspaceIdLayout = async ({ children, params }: Props) => {
@@ -25,13 +25,12 @@ const WorkspaceIdLayout = async ({ children, params }: Props) => {
     redirect("/onboarding");
   }
 
-  console.log(workspaceid, "id");
   return (
     <SidebarProvider>
-      <div className="w-full  bg-background h-screen">
+      <div className="w-full flex   bg-background h-screen">
         <AppSidebarContainer data={workspaceData} workspaceid={workspaceid} />
 
-        <main className="w-full overflow-y-auto min-h-screen">
+        <main className="w-full overflow-y-auto min-h-screen flex-1">
           <div className="flex items-start">
             <SidebarTrigger className="pt-3" />
             {/* 

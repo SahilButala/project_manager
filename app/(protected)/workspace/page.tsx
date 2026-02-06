@@ -6,23 +6,18 @@ const Workspace = async () => {
   const res = await getUserWorkSpace();
   const data = res?.data;
 
+  // If user is not authenticated or data failed
   if (!data) {
-    return;
+    redirect("/onboarding"); // or "/login"
   }
 
-  // const { user } = await userRequired();
+  const workspaces = data?.workspaces ?? [];
 
-  // ----------------- redirect logic ----------------- //
-
-  const workspaceid = data?.workspaces[0]?.workspaceId 
-
-  if (data?.workspaces?.length > 0) {
-    redirect(`/workspace/${workspaceid}`);
-  }else{
-      redirect(`/create-workspace`)
+  if (workspaces.length > 0) {
+    redirect(`/workspace/${workspaces[0].workspaceId}`);
   }
 
-  return <div></div>;
+  redirect("/create-workspace");
 };
 
 export default Workspace;

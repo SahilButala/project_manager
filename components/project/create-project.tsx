@@ -66,15 +66,17 @@ const CreateProjectForm = ({ workspaceMembers }: Props) => {
 
     console.log(data , "data of project")
 
-    const res = await createNewProjectForm(data);
+      const res = await createNewProjectForm(data);
 
-    if (!res.success) {
-      toast.error(res.message ?? "Failed to create project");
-      return;
-    }
+      form.reset()
 
-    toast.success("Project created successfully");
-    router.refresh();
+      if (!res.success) {
+        toast.error(res.message ?? "Failed to create project");
+        return;
+      }
+
+      toast.success("Project created successfully");
+      router.refresh();
 
   } catch (error) {
     console.error(error);
@@ -85,7 +87,7 @@ const CreateProjectForm = ({ workspaceMembers }: Props) => {
 }
   return (
     <Dialog>
-      <DialogTrigger asChild>
+      <DialogTrigger asChild >
         <Button size="icon" className="size-5 cursor-pointer">
           <Plus />
         </Button>
@@ -146,7 +148,7 @@ const CreateProjectForm = ({ workspaceMembers }: Props) => {
                         project
                       </FormDescription>
 
-                      <div>
+                      <div className="">
                         {workspaceMembers?.map((el) => (
                           <div className="" key={el?.userId}>
                             <Checkbox
@@ -171,9 +173,9 @@ const CreateProjectForm = ({ workspaceMembers }: Props) => {
 
                             <label
                               htmlFor={el?.userId}
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize  cursor-pointer"
+                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize  cursor-pointer ml-2"
                             >
-                              {el?.user?.name}(
+                              {el?.user?.name} (
                               {el?.accessLevel?.toLocaleLowerCase()})
                             </label>
                           </div>

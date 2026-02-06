@@ -6,8 +6,7 @@ import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma/client";
 import { ProjectSchema } from "@/lib/schema";
 
-
-export const  createNewProjectForm = async (data: ProjectData) => {
+export const createNewProjectForm = async (data: ProjectData) => {
   try {
     // 1️⃣ Auth
     const { user } = await userRequired();
@@ -52,7 +51,7 @@ export const  createNewProjectForm = async (data: ProjectData) => {
     memberIds.add(user.id);
 
     const validMembers = workspaceMembers.filter((m) =>
-      memberIds.has(m.userId)
+      memberIds.has(m.userId),
     );
 
     // 7️⃣ Create project
@@ -80,8 +79,7 @@ export const  createNewProjectForm = async (data: ProjectData) => {
     });
 
     return { success: true };
-
-  } catch (error : any) {
+  } catch (error: any) {
     console.error("Create project error:", error);
 
     if (

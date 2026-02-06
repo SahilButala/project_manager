@@ -12,6 +12,7 @@ import {
 } from "../ui/sidebar";
 import { usePathname } from "next/navigation";
 import CreateProjectForm from "../project/create-project";
+import Link from "next/link";
 
 const NavProjects = ({
   projects,
@@ -38,22 +39,23 @@ const NavProjects = ({
 
           <CreateProjectForm workspaceMembers={workspaceMembers} />
         </SidebarGroupLabel>
-        <SidebarMenu>
+        <SidebarMenu className="mt-2">
           {projects?.map((el) => {
             const workspaceid = el?.workspaceId;
-            const href = `workspace/${workspaceid}/projects/${el?.id}`;
+            const href = `/workspace/${workspaceid}/project/${el?.id}`;
+            // const href = `/workspace/${workspaceid}/sample`;
             return (
               <SidebarMenuItem key={el?.id}>
-                <SidebarMenuButton>
-                  <a
-                    href=""
+                <SidebarMenuButton asChild >
+                  <Link
+                    href={href}
                     className={
-                      path === href
-                        ? "text-primary-foreground font-semibold"
-                        : "text-muted-foreground hover:text-primary-foreground"
+                  path.startsWith(href)
+                        ? "text-gray-700 font-semibold cursor-pointer bg-gray-200 "
+                        : "text-muted-foreground hover:text-primary-foreground cursor-pointer"
                     }
-                  ></a>
-                  {el?.name}
+                  >  {el?.name}</Link>
+                
                 </SidebarMenuButton>
               </SidebarMenuItem>
             );
