@@ -51,7 +51,7 @@ const NavProjects = ({
                     href={href}
                     className={
                   path.startsWith(href)
-                        ? "text-gray-700 font-semibold cursor-pointer bg-gray-200 "
+                        ? "text-blue-500 font-semibold cursor-pointer bg-gray-200 "
                         : "text-muted-foreground hover:text-primary-foreground cursor-pointer"
                     }
                   >  {el?.name}</Link>

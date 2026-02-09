@@ -46,7 +46,7 @@ const ProjectPage = async (props: ProjectPageProps) => {
         <TabsContent value="dashboard">
             <ProjectDashboard 
              project={project as unknown as ProjectProps}
-             tasks={tasks}
+             task={tasks as unknown as any}
              comments={comments as  CommentProps[] }
              totalWorkspaceMembers={totalWorkspaceMembers!}
              activities={activities!}

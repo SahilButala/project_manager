@@ -135,6 +135,8 @@ enum TaskStatus {
   IN_PROGRESS
   COMPLETED
   IN_REVIEW
+  BLOCKED
+  BACKLOG
 }
 
 enum TaskPriority {
@@ -154,6 +156,7 @@ model Task {
 
   position Int
   dueDate  DateTime
+  startDate  DateTime
 
   assignedId String?
   assignedTo User?   @relation(fields: [assignedId], references: [id], onDelete: SetNull)

@@ -27,3 +27,27 @@ export const ProjectSchema = z.object({
   description: z.string().optional(),
   memberAccess: z.array(z.string()).optional(),
 });
+
+export const taskSchema = z.object({
+   title : z.string().min(1 , "Title is Required"),
+   description : z.string().optional(),
+   assignedId : z.string().optional(),
+   status : z.enum([
+    "TODO",
+    "IN_PROGRESS",
+    "COMPLETED",
+    "IN_REVIEW",
+    "BLOCKED",
+    "BACKLOG"
+   ]),
+   dueDate : z.date(),
+   startDate : z.date(),
+priority : z.enum(["LOW" , "MEDIUM" , "HIGH" , "CRITICAL"]),
+attachments : z.array(
+  z.object({
+    name : z.string(),
+    url : z.string(),
+    type : z.enum(["IMAGE" , "PDF"])
+  })
+).optional()
+})
