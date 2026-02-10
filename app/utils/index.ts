@@ -28,7 +28,7 @@ export const industryTypesList = [
 export const taskStatus = [
     {
         status : TaskStatus.TODO,
-        label : "TO DO",
+        label : "TODO",
         color : "bg-blue-500"
     },
     {

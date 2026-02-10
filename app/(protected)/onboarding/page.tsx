@@ -10,7 +10,7 @@ const OnboardingPage = async () => {
   
     const { user } = await userRequired();
 
-    console.log("length" , data?.workspaces.length)
+
   
     // ----------------- redirect logic ----------------- //
 

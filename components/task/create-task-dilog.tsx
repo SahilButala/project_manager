@@ -85,8 +85,8 @@ const CreateTaskDilog = ({ project }: { project: ProjectProps }) => {
         form.reset();
       }
 
-    } catch (error) {
-      console.log(error);
+    } catch (error : any) {
+      console.log(error?.message);
       toast.error("Failed to create task please try again...");
     } finally {
       setpending(false);
@@ -94,7 +94,7 @@ const CreateTaskDilog = ({ project }: { project: ProjectProps }) => {
   };
 
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger asChild>
         <Button>Create Task</Button>
       </DialogTrigger>

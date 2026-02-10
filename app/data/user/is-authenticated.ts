@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 
 
 export const userRequired = async ()=>{
+    // this function we will get from kind
     const {isAuthenticated , getUser}  =  getKindeServerSession()
 
 
