@@ -29,7 +29,7 @@ const ActivityFeed = ({ activities }: ActivityFeedProps) => {
             />
 
             <div className="flex flex-col">
-            <p className="font-semibold text-black text-sm">
+            <p className="font-semibold text-black text-sm dark:text-white">
                 <span className="text">{act?.user?.name}</span><span className="mr-2"></span>
                 {act?.description.charAt(0).toUpperCase() + act?.description.slice(1)}
               </p>

@@ -82,7 +82,7 @@ export const getProjectDetails = async (
         total : project?.tasks?.length,
         completed : project?.tasks?.filter((task)=>task?.status === TaskStatus.COMPLETED).length,
         inProgress : project?.tasks?.filter((task)=>task?.status === TaskStatus.IN_PROGRESS).length,
-        overdue : project?.tasks?.filter((task)=>task.status !== TaskStatus.COMPLETED && task?.dueDate  && new Date(task?.dueDate) < new Date()),
+        overdue : project?.tasks?.filter((task)=>task.status !== TaskStatus.COMPLETED && task?.dueDate  && new Date(task?.dueDate) < new Date()).length,
         items : project?.tasks
     }
 

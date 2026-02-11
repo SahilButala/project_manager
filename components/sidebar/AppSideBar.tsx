@@ -45,9 +45,7 @@ const AppSideBar = ({
 
       <div className="flex justify-between mb-0 mt-2  items-center">
         <SidebarGroupLabel className="mb-2 text-sm font-semibold text-muted-foreground uppercase">
-          <LogoutLink>
-            <LogOut className="mr-3 cursor-pointer" />
-          </LogoutLink>
+        
           Workspace
         </SidebarGroupLabel>
 
