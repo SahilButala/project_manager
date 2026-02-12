@@ -20,7 +20,9 @@ const variantStyles = {
 const CircleProgress = ({ title, value, subTitle, variant }: Props) => {
   return (
     <div className="flex flex-col items-center p-4 mb-3">
-      <h3 className="text-sm font-medium  mb-2 dark:text-white text-black">{title}</h3>
+      <h3 className="text-sm font-medium  mb-2 dark:text-white text-black">
+        {title}
+      </h3>
 
       <div className="relative w-20 h-20 ">
         <Progress
@@ -33,7 +35,9 @@ const CircleProgress = ({ title, value, subTitle, variant }: Props) => {
         <div className="absolute inset-0 flex items-center justify-center">
           <span>{`${Math.round(value || 0)}%`}</span>
         </div>
-        <p className="text-sm text-muted-foreground mt-3 text-center dark:text-white text-black">{subTitle}</p>
+        <p className="text-sm text-muted-foreground mt-3 text-center dark:text-white text-black">
+          {subTitle}
+        </p>
       </div>
     </div>
   );

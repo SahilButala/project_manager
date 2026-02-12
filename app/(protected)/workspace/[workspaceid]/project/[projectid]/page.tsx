@@ -15,10 +15,10 @@ const ProjectPage = async (props: ProjectPageProps) => {
   const { projectid, workspaceid } = await props.params;
   const searchParams = await props.searchParams;
 
+  // api
 
-  // api 
-   
-  const {project , tasks , comments , activities , totalWorkspaceMembers} = await getProjectDetails(workspaceid , projectid)
+  const { project, tasks, comments, activities, totalWorkspaceMembers } =
+    await getProjectDetails(workspaceid, projectid);
 
   // api
 
@@ -45,17 +45,16 @@ const ProjectPage = async (props: ProjectPageProps) => {
 
         {/* Tabs Content */}
         <TabsContent value="dashboard">
-            <ProjectDashboard 
-             project={project as unknown as ProjectProps}
-             task={tasks as unknown as any}
-             comments={comments as  CommentProps[] }
-             totalWorkspaceMembers={totalWorkspaceMembers!}
-             activities={activities!}
-            
-            />
+          <ProjectDashboard
+            project={project as unknown as ProjectProps}
+            task={tasks as unknown as any}
+            comments={comments as CommentProps[]}
+            totalWorkspaceMembers={totalWorkspaceMembers!}
+            activities={activities!}
+          />
         </TabsContent>
         <TabsContent value="table">
-          <ProjectTabContainer projectId={projectid as string}/>
+          <ProjectTabContainer projectId={projectid as string} />
         </TabsContent>
         <TabsContent value="kanban">kanban</TabsContent>
         {/* Tabs Content */}
