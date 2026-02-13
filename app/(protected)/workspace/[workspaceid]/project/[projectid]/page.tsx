@@ -1,5 +1,5 @@
 import { getProjectDetails } from "@/app/data/project/get-project-details";
-import ProjectTabContainer from "@/components/project/project-tab-container";
+import ProjectTableContainer from "@/components/project/project-table-container";
 import ProjectDashboard from "@/components/project/ProjectDashboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CommentProps, ProjectProps } from "@/types";
@@ -54,7 +54,7 @@ const ProjectPage = async (props: ProjectPageProps) => {
           />
         </TabsContent>
         <TabsContent value="table">
-          <ProjectTabContainer projectId={projectid as string} />
+          <ProjectTableContainer projectId={projectid as string} />
         </TabsContent>
         <TabsContent value="kanban">kanban</TabsContent>
         {/* Tabs Content */}
