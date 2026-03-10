@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { $Enums, TaskStatus } from "@/lib/generated/prisma/client";
 import { Column, ProjectTaskProps } from "@/types";
@@ -14,6 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { taskStatusVariant } from "@/app/utils";
 import { Separator } from "../ui/separator";
+import { updateTaskPosition } from "@/app/(protected)/actions/task";
 import ProjectCard from "./project-card";
 
 const COLUMN_TITLES: Record<$Enums.TaskStatus, string> = {
@@ -46,11 +47,70 @@ function ProjectKanban({ initialTasks }: { initialTasks: ProjectTaskProps[] }) {
     setcolumn(initialColumns);
   }, [initialTasks]);
 
-  const onDragEnd = () => {};
+  const onDragEnd = useCallback(
+      async (result: DropResult) => {
+        const { destination, source } = result;
+
+        if (!destination) return;
+
+        const newColumns = [...column];
+
+        const sourceColumn = newColumns.find(
+          (col) => col?.id === source?.droppableId,
+        );
+        const destCol = newColumns.find(
+          (col) => col.id === destination.droppableId,
+        );
+
+        if (!sourceColumn || !destCol) {
+          return;
+        }
+
+        const [movetask] = sourceColumn.tasks.splice(source.index, 1);
+
+        const destinationTasks = destCol.tasks;
+
+        let newPosition: number;
+
+        if (destinationTasks.length === 0) {
+          newPosition = 1000;
+        } else if (destination.index === 0) {
+          newPosition = destinationTasks[0].position - 1000;
+        } else if (destination.index === destinationTasks.length) {
+          newPosition =
+            destinationTasks[destinationTasks.length - 1].position + 1000;
+        } else {
+          newPosition =
+            (destinationTasks[destination.index - 1].position +
+              destinationTasks[destination.index].position) /
+            2;
+        }
+
+        const updatedTask = {
+          ...movetask,
+          position: newPosition,
+          status: destination.droppableId as TaskStatus,
+        };
+
+        destCol.tasks.splice(destination.index, 0, updatedTask);
+
+        setcolumn(newColumns);
+
+        try {
+          await updateTaskPosition(
+            movetask?.id,
+            newPosition,
+            destination.droppableId as TaskStatus
+          );
+        } catch (error) {}
+      },
+      [column],
+    );
+  
 
   return (
     <div className="flex gap-4 h-full md:px-4 overflow-x-auto ">
-      <DragDropContext onDragEnd={onDragEnd} >
+      <DragDropContext onDragEnd={onDragEnd}>
         {column?.map((col) => (
           <div
             className="flex flex-col min-w-40 w-80 bg-gray-50 dark:bg-gray-900 py-4"
@@ -78,7 +138,7 @@ function ProjectKanban({ initialTasks }: { initialTasks: ProjectTaskProps[] }) {
                   ref={provided?.innerRef}
                   className="rounded-lg flex-1 p-2"
                 >
-                  {col?.tasks?.map((task, index) => (
+                  {col?.tasks?.map((task : any, index :any) => (
                     <Draggable
                       key={index}
                       draggableId={task?.id as string}
@@ -101,6 +161,6 @@ function ProjectKanban({ initialTasks }: { initialTasks: ProjectTaskProps[] }) {
       </DragDropContext>
     </div>
   );
-}
 
+}
 export default ProjectKanban;

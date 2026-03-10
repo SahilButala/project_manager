@@ -3,7 +3,9 @@
 import { userRequired } from "@/app/data/user/is-authenticated";
 import { TaskDataValues } from "@/components/task/create-task-dilog";
 import db from "@/lib/db";
+import { TaskStatus } from "@/lib/generated/prisma/enums";
 import { taskSchema } from "@/lib/schema";
+import { nextMonday } from "date-fns";
 
 export const createTask = async (
   data: TaskDataValues,
@@ -89,3 +91,20 @@ export const createTask = async (
     };
   }
 };
+
+
+export const updateTaskPosition = async (taskid : string , newPosition : number , status : TaskStatus)=>{
+         await userRequired()
+         const task = await db.task.update({
+          where : {
+            id : taskid
+          },
+          data : {
+            position : newPosition,
+            status
+          }
+         })
+  console.log(task)
+         return task
+}
+
